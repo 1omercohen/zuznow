@@ -1,0 +1,121 @@
+<html ng-app="zuznow">
+
+<head>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="./js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="./js/app.js"></script>
+</head>
+
+<body ng-controller="main">
+    <script type="text/ng-template" id="search_result.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Search Result</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+                <table class="table table-bordered table_modal">
+                        <tr>
+                            <th>Title</th>
+                            <th>Desc</th>
+                            <th>Category</th>
+                            <th>Released</th>
+                            <th>Language</th>
+                            <th>Length</th>
+                            <th>Rating</th>
+                            <th>Actors</th>
+                        </tr>
+                        <tr ng-repeat="result in search_data">
+                            <td>{{result.title}}</td>
+                            <td>{{result.description}}</td>
+                            <td>{{result.category_name}}</td>
+                            <td>{{result.release_year}}</td>
+                            <td>{{result.language_name}}</td>
+                            <td>{{result.length}}</td>
+                            <td>{{result.rating}}</td>
+                            <td>{{result.actors.join(',')}}</td>
+                        </tr>
+                    </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        </div>
+    </script>
+    <nav class="navbar navbar-default text-center">ZuzNow</nav>
+    <div class="search_form text-center">
+        <form class="form-inline">
+            <div class="form-group">
+                <select class="form-control" ng-model="search_type">
+                    <option value="" disabled selected>Search By</option>
+                    <option value='Title'>Title</option>
+                    <option value='Description'>Description</option>
+                    <option value='Category'>Category</option>
+                    <option value='Actor'>Actor</option>
+                    <option value='Language'>Language</option>
+                </select>
+            </div>
+            <div class="form-group" ng-show="search_type == 'Category' || search_type == 'Actor' || search_type == 'Language'">
+                <select class="form-control" ng-model="select_value">
+                    <option value="" disabled selected>Select {{search_type}}</option>
+                    <option ng-repeat="val in values" value="{{val}}">{{val.name}}</option>
+                </select>
+
+            </div>
+            <div class="form-group" ng-show="search_type == 'Description' || search_type == 'Title'">
+                <input type="text" class="form-control" ng-model="search_value" placeholder="Search Value">
+            </div>
+            <button type="submit" class="btn btn-primary" ng-click="search()">Search</button>
+        </form>
+    </div>
+    <div ng-show="search_results.length > 0">
+        <h1 class="text-center">Search Result</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th>Title</th>
+                <th>Desc</th>
+                <th>Category</th>
+                <th>Released</th>
+                <th>Language</th>
+                <th>Length</th>
+                <th>Rating</th>
+                <th>Actors</th>
+            </tr>
+            <tr ng-repeat="result in search_results">
+                <td>{{result.title}}</td>
+                <td>{{result.description}}</td>
+                <td>{{result.category_name}}</td>
+                <td>{{result.release_year}}</td>
+                <td>{{result.language_name}}</td>
+                <td>{{result.length}}</td>
+                <td>{{result.rating}}</td>
+                <td>{{result.actors.join(',')}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="logs">
+        <h1 class="text-center">Logs Results</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th>Search Type</th>
+                <th>Search Value</th>
+                <th>Search Result</th>
+                <th>Search Date</th>
+                <th>Delete Search</th>
+            </tr>
+            <tr ng-repeat="result in logs">
+                <td>{{result.search_type}}</td>
+                <td>{{result.search_value}}</td>
+                <td ng-click="openResult(result.search_result)" class="text-center"><i class="fa fa-info"></i></td>
+                <td>{{result.search_time}}</td>
+                <td ng-click="delete(result.search_id)" class="text-center"><i class="fa fa-trash"></i></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

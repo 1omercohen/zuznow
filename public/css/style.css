@@ -1,0 +1,13 @@
+.navbar{
+    line-height: 45px;
+    font-size: 20px;
+    color: lightskyblue;
+    margin-bottom: 0;
+}
+.search_form, .logs{
+    padding: 15px;
+}
+.table_modal
+{
+    font-size: 12px;
+}
